@@ -7,7 +7,7 @@
 cwd=$(pwd)
 ietf_dir="standard/ietf"
 ieee_dir="standard/ieee"
-to_check="draft/802 draft/802.1 draft/802.1/ABcu draft/802.1/AEdk draft/802.1/CBcv draft/802.1/CBdb draft/802.1/Qcw draft/802.1/QRev draft/802.1/Qcz draft/802.3 published/1906.1 published/802 published/802.1"
+to_check="draft/802 draft/802.1 draft/802.1/AEdk draft/802.1/ASdn draft/802.1/Qcw draft/802.1/QRev draft/802.1/Qcz draft/802.1/Qcj draft/802.1/CScorr draft/802.1/DC draft/802.3 draft/1588 published/1906.1 published/802 published/802.1"
 
 # relax constraint for now
 # add --ietf if you want to do strict IETF checking
@@ -17,12 +17,13 @@ checkDir() {
     local dir="$ieee_dir/$1"
     echo "\nChecking yang files in $dir"
     exit_status=""
-    pyang_flags="--verbose --path $ietf_dir_flag --path $cwd/$ieee_dir/published/802 --path $cwd/$ieee_dir/published/802.1"
+    pyang_flags="--verbose --path $ietf_dir_flag --path $cwd/$ieee_dir/published"
     cd $dir
 
     if [ -f "./check_pyang_extra_flags" ]; then
         check_pyang_extra_flags=$(cat ./check_pyang_extra_flags)
-        pyang_flags="$pyang_flags $check_pyang_extra_flags"
+        #pyang_flags="$pyang_flags $check_pyang_extra_flags"
+        pyang_flags="$check_pyang_extra_flags $pyang_flags"
     fi
     printf "\n"
     for f in *.yang; do
